@@ -1,0 +1,12 @@
+ChemX_dbt:           # Имя профиля (должно совпадать с profile в dbt_project.yml)
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: postgres
+      password: 1321122Ar
+      port: 5432
+      dbname: ChemX
+      schema: public      # или другую схему, если используешь не public
+      threads: 4

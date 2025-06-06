@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: raw
+    database: ChemX
+    schema: raw
+    tables:
+      - name: benzimidazoles
+      - name: co_crystals
+      - name: complexes
+      - name: cytotox
+      - name: eyedrops
+      - name: nanomag
+      - name: nanozymes
+      - name: oxazolidinones
+      - name: seltox
+      - name: synergy
+
+#Зачем это нужно? Это позволяет:
+#Ссылаться на источники в SQL-запросах через функцию source()
+#вместо жесткого указания схемы и таблицы
+#Документировать источники данных
+#Тестировать источники (например, проверять, что таблицы существуют)

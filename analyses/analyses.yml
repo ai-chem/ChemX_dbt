@@ -1,0 +1,8 @@
+version: 2
+
+analyses:
+  - name: benzimidazoles_analysis
+    description: "Analysis of the benzimidazoles table"
+
+  - name: cytotox_analysis
+    description: "Analysis of the cytotox table"

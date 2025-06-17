@@ -4,8 +4,9 @@
 -- 2. Первые 5 столбцов
 {{ get_first_n_columns('raw', 'nanomag') }}
 
--- 3. Подсчет NULL значений
-{{ get_null_counts('raw', 'nanomag') }}
-
--- 4. кол-во пропущенных значений
+-- 3. кол-во пропущенных значений
 {{ column_stats('raw', 'nanomag') }}
+
+-- 4. кол-во дубликатов
+-- Подсчет дубликатов в таблице benzimidazoles
+{{ count_full_duplicates('raw', 'nanomag') }}

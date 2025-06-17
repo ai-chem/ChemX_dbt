@@ -4,8 +4,5 @@
 -- 2. Первые 5 столбцов
 {{ get_first_n_columns('raw', 'eyedrops') }}
 
--- 3. Подсчет NULL значений
-{{ get_null_counts('raw', 'eyedrops') }}
-
--- 4. кол-во пропущенных значений
+-- 3. кол-во пропущенных значений
 {{ column_stats('raw', 'eyedrops') }}

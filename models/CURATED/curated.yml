@@ -1,0 +1,85 @@
+# models/curated/curated.yml
+version: 2
+
+models:
+  # Наноматериалы
+  - name: cur_nanomag
+    description: "Очищенные и дедуплицированные данные о магнитных наночастицах (серебряный слой)"
+    config:
+      materialized: view
+      schema: curated
+    tests:
+      - no_duplicates  # Проверка на отсутствие дубликатов
+
+  - name: cur_cytotox
+    description: "Очищенные и дедуплицированные данные о токсичности наночастиц на клеточных линиях (серебряный слой)"
+    config:
+      materialized: view
+      schema: curated
+    tests:
+      - no_duplicates  # Проверка на отсутствие дубликатов
+
+  - name: cur_nanozymes
+    description: "Очищенные и дедуплицированные данные о нанозимах и их каталитической активности (серебряный слой)"
+    config:
+      materialized: view
+      schema: curated
+    tests:
+      - no_duplicates  # Проверка на отсутствие дубликатов
+
+  - name: cur_seltox
+    description: "Очищенные и дедуплицированные данные о селективной токсичности наночастиц против бактериальных штаммов (серебряный слой)"
+    config:
+      materialized: view
+      schema: curated
+    tests:
+      - no_duplicates  # Проверка на отсутствие дубликатов
+
+  - name: cur_synergy
+    description: "Очищенные и дедуплицированные данные о синергии антибиотиков и наночастиц (серебряный слой)"
+    config:
+      materialized: view
+      schema: curated
+    tests:
+      - no_duplicates  # Проверка на отсутствие дубликатов
+
+  # Малые молекулы
+  - name: cur_benzimidazoles
+    description: "Очищенные и дедуплицированные данные о бензимидазолах и их антибактериальной активности (серебряный слой)"
+    config:
+      materialized: view
+      schema: curated
+    tests:
+      - no_duplicates  # Проверка на отсутствие дубликатов
+
+  - name: cur_oxazolidinones
+    description: "Очищенные и дедуплицированные данные об оксазолидиноновых антибиотиках (серебряный слой)"
+    config:
+      materialized: view
+      schema: curated
+    tests:
+      - no_duplicates  # Проверка на отсутствие дубликатов
+
+  - name: cur_complexes
+    description: "Очищенные и дедуплицированные данные о хелатных комплексах и их константах стабильности (серебряный слой)"
+    config:
+      materialized: view
+      schema: curated
+    tests:
+      - no_duplicates  # Проверка на отсутствие дубликатов
+
+  - name: cur_eyedrops
+    description: "Очищенные и дедуплицированные данные о проницаемости роговицы для малых молекул (серебряный слой)"
+    config:
+      materialized: view
+      schema: curated
+    tests:
+      - no_duplicates  # Проверка на отсутствие дубликатов
+
+  - name: cur_co_crystals
+    description: "Очищенные и дедуплицированные данные о сокристаллах и их фотостабильности (серебряный слой)"
+    config:
+      materialized: view
+      schema: curated
+    tests:
+      - no_duplicates  # Проверка на отсутствие дубликатов

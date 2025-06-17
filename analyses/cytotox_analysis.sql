@@ -6,3 +6,6 @@
 
 -- 3. Подсчет NULL значений
 {{ get_null_counts('raw', 'cytotox') }}
+
+-- 4. кол-во пропущенных значений
+{{ column_stats('raw', 'cytotox') }}

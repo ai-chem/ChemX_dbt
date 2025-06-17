@@ -6,3 +6,6 @@
 
 -- 3. Подсчет NULL значений
 {{ get_null_counts('raw', 'co_crystals') }}
+
+-- 4. кол-во пропущенных значений
+{{ column_stats('raw', 'co_crystals') }}

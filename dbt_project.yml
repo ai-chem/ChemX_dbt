@@ -32,9 +32,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   ChemX_dbt:
-    staging:
+    UNIFIED:
       +materialized: view
-    intermediate:
+    CURATED:
       +materialized: view
-    marts:
+    SERVING:
       +materialized: table

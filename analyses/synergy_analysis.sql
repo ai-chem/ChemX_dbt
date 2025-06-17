@@ -6,3 +6,6 @@
 
 -- 3. Подсчет NULL значений
 {{ get_null_counts('raw', 'synergy') }}
+
+-- 4. кол-во пропущенных значений
+{{ column_stats('raw', 'synergy') }}

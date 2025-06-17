@@ -1,0 +1,978 @@
+version: 2
+
+sources:
+  - name: raw
+    database: ChemX
+    schema: raw
+    tables:
+      - name: benzimidazoles
+        description: "Исходные данные о бензимидазолах, извлеченные из научных публикаций"
+        columns:
+          - name: smiles
+            description: "Химическая структура в формате изомерного SMILES"
+
+          - name: doi
+            description: "DOI статьи, из которой были извлечены данные"
+
+          - name: title
+            description: "Название статьи"
+
+          - name: publisher
+            description: "Издатель"
+
+          - name: year
+            description: "Год публикации"
+
+          - name: access
+            description: "Тип доступа (1 = открытый доступ, 0 = закрытый доступ)"
+
+          - name: compound_id
+            description: "Идентификатор соединения в статье"
+
+          - name: target_type
+            description: "Тип измерения цели (например, MIC или pMIC)"
+
+          - name: target_relation
+            description: "Символ отношения (например, =, >, <)"
+
+          - name: target_value
+            description: "Значение цели"
+
+          - name: target_units
+            description: "Единицы измерения значения цели (например, µg/mL)"
+
+          - name: bacteria
+            description: "Бактериальный вид, против которого тестировалось соединение"
+
+          - name: bacteria_unified
+            description: "Унифицированное название бактериального вида (например, Escherichia coli)"
+
+          - name: page_bacteria
+            description: "Номер страницы, где упоминается бактерия в статье"
+
+          - name: origin_bacteria
+            description: "Источник упоминания бактерии (таблица, рисунок, текст, изображение)"
+
+          - name: section_bacteria
+            description: "Раздел статьи (если origin_bacteria = текст)"
+
+          - name: subsection_bacteria
+            description: "Подраздел (если origin_bacteria = текст)"
+
+          - name: page_target
+            description: "Номер страницы, где указано целевое значение"
+
+          - name: origin_target
+            description: "Источник целевого значения (таблица, рисунок, текст, изображение)"
+
+          - name: section_target
+            description: "Раздел статьи (если origin_target = текст)"
+
+          - name: subsection_target
+            description: "Подраздел (если origin_target = текст)"
+
+          - name: page_scaffold
+            description: "Страница с диаграммой химического каркаса или полной молекулы"
+
+          - name: origin_scaffold
+            description: "Происхождение изображения каркаса (таблица, рисунок или ненумерованное изображение)"
+
+          - name: page_residue
+            description: "Страница со структурами заместителей (если молекула = каркас + остатки)"
+
+          - name: origin_residue
+            description: "Происхождение изображения остатка (таблица, рисунок или ненумерованное изображение)"
+
+          - name: pdf
+            description: "Информация о PDF-файле статьи"
+
+          - name: dbt_loaded_at
+            description: "Временная метка загрузки данных в dbt"
+      - name: co_crystals
+        description: "Data on photostable drug molecules and their multi-component crystalline forms (cocrystals or salts)"
+        columns:
+          - name: pdf
+            description: "PDF filename used"
+
+          - name: doi
+            description: "Digital Object Identifier"
+
+          - name: supplementary
+            description: "Indicates source location: 0 = main; 1 = supplementary"
+
+          - name: authors
+            description: "List of authors"
+
+          - name: title
+            description: "Title of the article"
+
+          - name: journal
+            description: "Journal name"
+
+          - name: year
+            description: "Year of publication"
+
+          - name: page
+            description: "Page number or article ID where data was found"
+
+          - name: access
+            description: "1 = Open Access, 0 = Closed Access"
+
+          - name: name_cocrystal
+            description: "Name of the multi-component crystal"
+
+          - name: name_cocrystal_type_file
+            description: "Source type (text, manuscript, figure, etc.)"
+
+          - name: name_cocrystal_page
+            description: "Page number where cocrystal is mentioned"
+
+          - name: name_cocrystal_origin
+            description: "Origin in article (figure 1, table 2, etc.)"
+
+          - name: ratio_cocrystal
+            description: "Component ratio used to form the cocrystal"
+
+          - name: ratio_cocrystal_page
+            description: "Page number for reported ratio"
+
+          - name: "ratio_cocrystal_page.1"
+            description: "Additional page number for reported ratio"
+
+          - name: ratio_cocrystal_origin
+            description: "Source of ratio (e.g., text, table)"
+
+          - name: name_drug
+            description: "Drug name as reported in the article"
+
+          - name: name_drug_type_file
+            description: "Source type for drug name"
+
+          - name: name_drug_origin
+            description: "Origin of drug name in article"
+
+          - name: name_drug_page
+            description: "Page number where drug name is mentioned"
+
+          - name: smiles_drug
+            description: "Canonical SMILES of the drug molecule"
+
+          - name: smiles_drug_type_file
+            description: "Source type for drug SMILES"
+
+          - name: smiles_drug_origin
+            description: "Origin of drug SMILES in article"
+
+          - name: smiles_drug_page
+            description: "Page number where drug SMILES is mentioned"
+
+          - name: name_coformer
+            description: "Name of the coformer"
+
+          - name: name_coformer_type_file
+            description: "Source type for coformer name"
+
+          - name: name_coformer_origin
+            description: "Origin of coformer name in article"
+
+          - name: name_coformer_page
+            description: "Page number where coformer name is mentioned"
+
+          - name: smiles_coformer
+            description: "Canonical SMILES of the coformer molecule"
+
+          - name: smiles_coformer_type_file
+            description: "Source type for coformer SMILES"
+
+          - name: smiles_coformer_origin
+            description: "Origin of coformer SMILES in article"
+
+          - name: smiles_coformer_page
+            description: "Page number where coformer SMILES is mentioned"
+
+          - name: photostability_change
+            description: "Change in photostability ('increase', 'does not change', 'decrease')"
+
+          - name: photostability_change_type_file
+            description: "Source type for photostability change"
+
+          - name: photostability_change_origin
+            description: "Origin of photostability change information (e.g., figure, table, text)"
+
+          - name: photostability_change_page
+            description: "Page number where photostability is reported"
+
+          - name: dbt_loaded_at
+            description: "Timestamp when the data was loaded into dbt"
+      - name: complexes
+        description: "Data on thermodynamic stability constants (lgK) of chelate complexes formed by various metals and chelating ligands"
+        columns:
+          - name: pdf
+            description: "PDF filename in the archive"
+
+          - name: doi
+            description: "DOI of the article"
+
+          - name: doi_sourse
+            description: "Original DOI if the entry is cited from a review article"
+
+          - name: supplementary
+            description: "Source flag: 0 – main article, 1 – supplementary materials"
+
+          - name: title
+            description: "Article title"
+
+          - name: publisher
+            description: "Publisher name"
+
+          - name: year
+            description: "Year of publication"
+
+          - name: access
+            description: "1 = Open Access, 0 = Closed"
+
+          - name: compound_id
+            description: "Identifier of the compound in the article"
+
+          - name: compound_name
+            description: "Name of the compound as cited"
+
+          - name: smiles
+            description: "Canonical SMILES of ligand or ligand environment"
+
+          - name: smiles_type
+            description: "'ligand' = single ligand only, 'environment' = full complex without metal"
+
+          - name: metal
+            description: "Type of metal forming the complex"
+
+          - name: target
+            description: "Stability constant (logK)"
+
+          - name: page_smiles
+            description: "Page number where the ligand structure is found"
+
+          - name: origin_smiles
+            description: "Source of SMILES extraction (e.g., figure 2, scheme 1, table 3)"
+
+          - name: page_metal
+            description: "Page number where the metal is mentioned"
+
+          - name: origin_metal
+            description: "Source of metal information (e.g., title, table caption, figure)"
+
+          - name: page_target_value
+            description: "Page where target value (logK) is found"
+
+          - name: origin_target_value
+            description: "Source of the target value"
+
+          - name: dbt_loaded_at
+            description: "Timestamp when the data was loaded into dbt"
+      - name: cytotox
+        description: "Data on the toxicity of inorganic nanoparticles on various normal and cancer cell lines"
+        columns:
+          - name: sn
+            description: "Index of the sample (serial number)"
+
+          - name: material
+            description: "Composition of the nanoparticle/material tested (e.g., SiO₂, Ag)"
+
+          - name: shape
+            description: "Physical shape of the particle (e.g., Sphere, Rod)"
+
+          - name: coat_functional_group
+            description: "Surface coating or functionalization (e.g., CTAB, PEG)"
+
+          - name: synthesis_method
+            description: "Synthesis method (e.g., Precipitation, Commercial)"
+
+          - name: surface_charge
+            description: "Reported surface charge (e.g., Negative, Positive)"
+
+          - name: size_in_medium_nm
+            description: "Hydrodynamic size in biological medium (nm)"
+
+          - name: zeta_in_medium_mv
+            description: "Zeta potential in medium (mV; blank if not measured)"
+
+          - name: no_of_cells_cells_well
+            description: "Cell density per well in the assay"
+
+          - name: human_animal
+            description: "Origin of cells (A = Animal, H = Human)"
+
+          - name: cell_source
+            description: "Species/organism (e.g., Rat, Human)"
+
+          - name: cell_tissue
+            description: "Tissue origin of the cell line (e.g., Adrenal Gland, Lung)"
+
+          - name: cell_morphology
+            description: "Cell shape (e.g., Irregular, Epithelial)"
+
+          - name: cell_age
+            description: "Developmental stage of cells (e.g., Adult, Embryonic)"
+
+          - name: time_hr
+            description: "Exposure duration in hours"
+
+          - name: concentration
+            description: "Tested concentration of the material (e.g., µg/mL)"
+
+          - name: test
+            description: "Cytotoxicity assay type (e.g., MTT, LDH)"
+
+          - name: test_indicator
+            description: "Reagent measured (e.g., TetrazoliumSalt for MTT)"
+
+          - name: "viability_%"
+            description: "Cell viability percentage relative to control"
+
+          - name: doi
+            description: "Digital Object Identifier (DOI) of the article"
+
+          - name: article_list
+            description: "Identifier for the article in the dataset"
+
+          - name: core_nm
+            description: "Primary particle size (nm)"
+
+          - name: hydrodynamic_nm
+            description: "Size in solution including coatings (nm)"
+
+          - name: potential_mv
+            description: "Surface charge in solution (mV)"
+
+          - name: cell_type
+            description: "Specific cell line name (e.g., PC12, A549)"
+
+          - name: journal_name
+            description: "Name of the publishing journal"
+
+          - name: publisher
+            description: "Publisher of the article"
+
+          - name: year
+            description: "Year of publication"
+
+          - name: title
+            description: "Title of the article from which data was extracted"
+
+          - name: journal_is_oa
+            description: "Whether the journal is Open Access (TRUE/FALSE)"
+
+          - name: is_oa
+            description: "Whether the specific article is Open Access (TRUE/FALSE)"
+
+          - name: oa_status
+            description: "Open Access status (e.g., hybrid, gold, closed)"
+
+          - name: pdf
+            description: "Filename of the corresponding PDF in the PDF archive"
+
+          - name: access
+            description: "Access status (1 = open, 0 = closed)"
+
+          - name: dbt_loaded_at
+            description: "Timestamp when the data was loaded into dbt"
+      - name: eyedrops
+        description: "Data on the corneal permeability of small molecules used in ophthalmic drug delivery"
+        columns:
+          - name: smiles
+            description: "SMILES of the compound. Manually drawn and curated based on compound name"
+
+          - name: name
+            description: "Name of the pharmaceutical compound"
+
+          - name: "perm_(cm/s)"
+            description: "Corneal permeability (direct or calculated)"
+
+          - name: logp
+            description: "Logarithm of corneal permeability (direct or calculated)"
+
+          - name: doi
+            description: "DOI of the article (if available)"
+
+          - name: pmid
+            description: "PubMed ID (if available)"
+
+          - name: title
+            description: "Title of the source article"
+
+          - name: publisher
+            description: "Publisher of the article"
+
+          - name: year
+            description: "Year of publication"
+
+          - name: access
+            description: "Access status: 1 = open, 0 = closed"
+
+          - name: page
+            description: "Page number where the data was located"
+
+          - name: origin
+            description: "Source location within the article (e.g., table 3)"
+
+          - name: dbt_loaded_at
+            description: "Timestamp when the data was loaded into dbt"
+      - name: nanomag
+        description: "Comprehensive data about magnetic nanoparticles, including core-shell structures and their magnetic properties"
+        columns:
+          - name: name
+            description: "Sample or material name (if given)"
+
+          - name: np_shell_2
+            description: "Second shell layer material (optional)"
+
+          - name: np_hydro_size
+            description: "Hydrodynamic size (nm)"
+
+          - name: xrd_scherrer_size
+            description: "Size from XRD using Scherrer equation"
+
+          - name: zfc_h_meas
+            description: "Field used for ZFC measurement (kOe)"
+
+          - name: htherm_sar
+            description: "Specific absorption rate for hyperthermia (W/g)"
+
+          - name: mri_r1
+            description: "MRI relaxation rate r1 (mM⁻¹·s⁻¹)"
+
+          - name: mri_r2
+            description: "MRI relaxation rate r2 (mM⁻¹·s⁻¹)"
+
+          - name: emic_size
+            description: "Size from electron microscopy"
+
+          - name: instrument
+            description: "Instrument used for measurement (e.g., SQUID)"
+
+          - name: core_shell_formula
+            description: "Combined formula for core-shell system"
+
+          - name: np_core
+            description: "Material of the nanoparticle core"
+
+          - name: np_shell
+            description: "Material of the shell"
+
+          - name: space_group_core
+            description: "Core crystallographic space group"
+
+          - name: space_group_shell
+            description: "Shell crystallographic space group"
+
+          - name: squid_h_max
+            description: "Max magnetic field in SQUID (kOe)"
+
+          - name: fc_field_t
+            description: "Field-cooled field strength (T)"
+
+          - name: squid_temperature
+            description: "SQUID measurement temperature (K)"
+
+          - name: squid_sat_mag
+            description: "Saturation magnetization (emu/g)"
+
+          - name: coercivity
+            description: "Coercive field strength (kOe)"
+
+          - name: squid_rem_mag
+            description: "Remanent magnetization (emu/g)"
+
+          - name: exchange_bias_shift_oe
+            description: "Exchange bias field shift (Oe)"
+
+          - name: vertical_loop_shift_m_vsl_emu_g
+            description: "Vertical loop shift (emu/g)"
+
+          - name: hc_koe
+            description: "Coercive field from hysteresis loop (kOe)"
+
+          - name: doi
+            description: "DOI of the publication"
+
+          - name: pdf
+            description: "Filename of the associated PDF"
+
+          - name: supp
+            description: "Supplementary information indicator"
+
+          - name: journal
+            description: "Journal name"
+
+          - name: publisher
+            description: "Publisher name"
+
+          - name: year
+            description: "Year of publication"
+
+          - name: title
+            description: "Article title"
+
+          - name: access
+            description: "Access status: 1 = OA, 0 = closed"
+
+          - name: verification_required
+            description: "Whether manual verification is needed"
+
+          - name: verified_by
+            description: "Name of validator"
+
+          - name: verification_date
+            description: "Date of verification"
+
+          - name: has_mistake_in_matadata
+            description: "Whether metadata has a mistake"
+
+          - name: comment
+            description: "Notes by validator"
+
+          - name: article_name_folder
+            description: "Internal folder name for the article"
+
+          - name: supp_info_name_folder
+            description: "Supplementary info folder name"
+
+          - name: dbt_loaded_at
+            description: "Timestamp when the data was loaded into dbt"
+      - name: nanozymes
+        description: "Data on nanozymes, including their chemical composition, structural properties, and catalytic activity"
+        columns:
+          - name: formula
+            description: "Chemical formula of the nanozyme (e.g., Fe₃O₄, CeO₂)"
+
+          - name: activity
+            description: "Catalytic activity type (e.g., peroxidase, oxidase)"
+
+          - name: syngony
+            description: "Crystal system (e.g., cubic, hexagonal)"
+
+          - name: length
+            description: "Nanoparticle length in nm"
+
+          - name: width
+            description: "Width in nm"
+
+          - name: depth
+            description: "Depth or thickness in nm"
+
+          - name: surface
+            description: "Surface functionalization or modification (e.g., PEG, PVP)"
+
+          - name: km_value
+            description: "Michaelis constant (Km)"
+
+          - name: km_unit
+            description: "Unit for Km value (e.g., mM, µM)"
+
+          - name: vmax_value
+            description: "Maximum rate of reaction (Vmax)"
+
+          - name: vmax_unit
+            description: "Unit for Vmax value (e.g., µmol/min, mM/s)"
+
+          - name: target_source
+            description: "Source of target activity value in publication"
+
+          - name: reaction_type
+            description: "Substrate and co-substrate used in the reaction (e.g., TMB + H₂O₂)"
+
+          - name: c_min
+            description: "Minimum substrate concentration (in mM)"
+
+          - name: c_max
+            description: "Maximum substrate concentration (in mM)"
+
+          - name: c_const
+            description: "Constant concentration of co-substrate"
+
+          - name: c_const_unit
+            description: "Unit of co-substrate concentration (e.g., mM, µM)"
+
+          - name: ccat_value
+            description: "Catalyst (nanozyme) concentration used"
+
+          - name: ccat_unit
+            description: "Unit of catalyst concentration (e.g., mg/mL)"
+
+          - name: ph
+            description: "pH at which reaction was carried out"
+
+          - name: temperature
+            description: "Temperature in Celsius"
+
+          - name: doi
+            description: "DOI of the source article"
+
+          - name: pdf
+            description: "PDF filename in the dataset"
+
+          - name: access
+            description: "Access status (1 = open access, 0 = closed access)"
+
+          - name: title
+            description: "Title of the source publication"
+
+          - name: journal
+            description: "Journal name"
+
+          - name: year
+            description: "Year of publication"
+
+          - name: dbt_loaded_at
+            description: "Timestamp when the data was loaded into dbt"
+      - name: oxazolidinones
+        description: "Data on oxazolidinone antibiotics and their inhibitory concentrations against various bacterial strains"
+        columns:
+          - name: pdf
+            description: "Name of PDF file where data was extracted from"
+
+          - name: smiles
+            description: "Isomeric SMILES representation of the compound"
+
+          - name: doi
+            description: "Digital Object Identifier of the source article"
+
+          - name: title
+            description: "Title of the article"
+
+          - name: publisher
+            description: "Journal publisher"
+
+          - name: year
+            description: "Year of publication"
+
+          - name: access
+            description: "Access status (1 = open, 0 = closed)"
+
+          - name: compound_id
+            description: "Compound ID as used in the article"
+
+          - name: target_type
+            description: "Type of measurement (e.g., MIC, pMIC)"
+
+          - name: target_relation
+            description: "Inequality symbol (e.g., =, >, <)"
+
+          - name: target_value
+            description: "Numerical target value"
+
+          - name: target_units
+            description: "Units of target value (e.g., µg/mL, mol/L)"
+
+          - name: bacteria
+            description: "Raw bacterial name"
+
+          - name: bacteria_name_unified
+            description: "Normalized / unified bacterial name"
+
+          - name: bacteria_info
+            description: "Additional strain/bacteria-related info"
+
+          - name: page_bacteria
+            description: "Page number where bacteria is reported"
+
+          - name: origin_bacteria
+            description: "Source of bacteria (text, table, fig, image)"
+
+          - name: section_bacteria
+            description: "Section of article (if applicable)"
+
+          - name: subsection_bacteria
+            description: "Subsection of article (if applicable)"
+
+          - name: page_target
+            description: "Page of the article where target value is found"
+
+          - name: origin_target
+            description: "Source of target value (table, text, image)"
+
+          - name: section_target
+            description: "Section in the article for target (if text)"
+
+          - name: subsection_target
+            description: "Subsection in the article for target"
+
+          - name: column_prop
+            description: "Table column index or value (optional)"
+
+          - name: line_prop
+            description: "Table row index or value (optional)"
+
+          - name: page_scaffold
+            description: "Page with scaffold or full molecule"
+
+          - name: origin_scaffold
+            description: "Origin of scaffold (table, figure, image)"
+
+          - name: section_scaffold
+            description: "Section for scaffold"
+
+          - name: subsection_scaffold
+            description: "Subsection for scaffold"
+
+          - name: page_residue
+            description: "Page for substituent structures"
+
+          - name: origin_residue
+            description: "Origin of residue structures"
+
+          - name: section_residue
+            description: "Section of article for substituent structures"
+
+          - name: dbt_loaded_at
+            description: "Timestamp when the data was loaded into dbt"
+      - name: seltox
+        description: "Data on the toxicity of inorganic nanoparticles tested against different bacterial strains, including both normal and multidrug-resistant (MDR) types"
+        columns:
+          - name: sn
+            description: "Internal index for entries"
+
+          - name: np
+            description: "Name of the nanoparticle (e.g., Ag, Au, ZnO)"
+
+          - name: coating
+            description: "Surface coating or modification (1 = presence, 0 = none)"
+
+          - name: bacteria
+            description: "Name of the tested bacterial strain"
+
+          - name: mdr
+            description: "Indicator for multidrug-resistant strain (1 = MDR, 0 = non-MDR)"
+
+          - name: strain
+            description: "Specific strain identifier (if provided)"
+
+          - name: np_synthesis
+            description: "Synthesis method of the nanoparticle"
+
+          - name: method
+            description: "Assay type used (e.g., MIC, ZOI)"
+
+          - name: "mic_np_µg_ml"
+            description: "MIC value in µg/mL for the nanoparticle"
+
+          - name: concentration
+            description: "Concentration used for ZOI measurement"
+
+          - name: zoi_np_mm
+            description: "ZOI (Zone of Inhibition) in millimeters"
+
+          - name: np_size_min_nm
+            description: "Minimum nanoparticle size (nm)"
+
+          - name: np_size_max_nm
+            description: "Maximum nanoparticle size (nm)"
+
+          - name: np_size_avg_nm
+            description: "Average nanoparticle size (nm)"
+
+          - name: shape
+            description: "Morphology of the nanoparticle (e.g., spherical, rod)"
+
+          - name: time_set_hours
+            description: "Duration of the antibacterial assay in hours"
+
+          - name: zeta_potential_mv
+            description: "Zeta potential (in mV); blank if not reported"
+
+          - name: solvent_for_extract
+            description: "Solvent used in green synthesis (if applicable)"
+
+          - name: temperature_for_extract_c
+            description: "Temperature for extract preparation (°C)"
+
+          - name: duration_preparing_extract_min
+            description: "Duration (in minutes) of extract preparation"
+
+          - name: precursor_of_np
+            description: "Chemical precursor used for nanoparticle synthesis (e.g., AgNO₃)"
+
+          - name: concentration_of_precursor_mm
+            description: "Concentration of precursor in millimolar"
+
+          - name: hydrodynamic_diameter_nm
+            description: "Hydrodynamic diameter in nanometers"
+
+          - name: ph_during_synthesis
+            description: "pH during nanoparticle synthesis"
+
+          - name: reference
+            description: "External source or citation URL"
+
+          - name: doi
+            description: "DOI of the publication"
+
+          - name: article_list
+            description: "Article ID in dataset"
+
+          - name: journal_name
+            description: "Name of the journal"
+
+          - name: publisher
+            description: "Name of the publisher"
+
+          - name: year
+            description: "Year of publication"
+
+          - name: title
+            description: "Title of the article"
+
+          - name: journal_is_oa
+            description: "Whether the journal is Open Access (True / False)"
+
+          - name: is_oa
+            description: "Whether the article itself is Open Access (True / False)"
+
+          - name: oa_status
+            description: "Open Access status (e.g., green, gold, hybrid, closed)"
+
+          - name: pdf
+            description: "Filename of the PDF in archive for reference checking"
+
+          - name: access
+            description: "Access status (1 = open access, 0 = closed access)"
+
+          - name: dbt_loaded_at
+            description: "Timestamp when the data was loaded into dbt"
+      - name: synergy
+        description: "Data on the antibacterial activity of individual drugs, nanoparticles, and their combinations against various bacterial strains"
+        columns:
+          - name: sn
+            description: "Internal index of the record"
+
+          - name: np
+            description: "Nanoparticle name (Ag, Au, CuO, etc.)"
+
+          - name: bacteria
+            description: "Bacteria species"
+
+          - name: strain
+            description: "Strain identifier (e.g., ATCC 25922, MTCC 443)"
+
+          - name: np_synthesis
+            description: "Method of nanoparticle synthesis (e.g., green, chemical)"
+
+          - name: drug
+            description: "Name of the antibiotic tested"
+
+          - name: "drug_dose_µg_disk"
+            description: "Dose of drug in disc diffusion assay"
+
+          - name: "np_concentration_µg_ml"
+            description: "NP concentration in µg/mL"
+
+          - name: np_size_min_nm
+            description: "Minimum NP size in nanometers"
+
+          - name: np_size_max_nm
+            description: "Maximum NP size in nanometers"
+
+          - name: np_size_avg_nm
+            description: "Average NP size in nanometers"
+
+          - name: shape
+            description: "Morphology of the NP"
+
+          - name: method
+            description: "Assay method used"
+
+          - name: "zoi_drug_mm_or_mic__µg_ml"
+            description: "Zone of inhibition or MIC for drug alone"
+
+          - name: "error_zoi_drug_mm_or_mic_µg_ml"
+            description: "Standard deviation for ZOI_drug_mm_or_MIC"
+
+          - name: "zoi_np_mm_or_mic_np_µg_ml"
+            description: "ZOI or MIC for NP alone"
+
+          - name: "error_zoi_np_mm_or_mic_np_µg_ml"
+            description: "Standard deviation for NP assay"
+
+          - name: "zoi_drug_np_mm_or_mic_drug_np_µg_ml"
+            description: "ZOI or MIC for drug + NP"
+
+          - name: "error_zoi_drug_np_mm_or_mic_drug_np_µg_ml"
+            description: "Standard deviation for combination"
+
+          - name: fold_increase_in_antibacterial_activity
+            description: "Fold increase in combination efficiency"
+
+          - name: zeta_potential_mv
+            description: "Surface charge in mV"
+
+          - name: mdr
+            description: "Indicates multidrug resistance (R = resistant)"
+
+          - name: fic
+            description: "Fractional Inhibitory Concentration index"
+
+          - name: effect
+            description: "Type of synergy (synergistic, additive…)"
+
+          - name: reference
+            description: "Full citation or source"
+
+          - name: doi
+            description: "Digital Object Identifier"
+
+          - name: article_list
+            description: "Internal article identifier"
+
+          - name: time_hr
+            description: "Time of exposure in hours"
+
+          - name: coating_with_antimicrobial_peptide_polymers
+            description: "Presence or name of coating"
+
+          - name: combined_mic
+            description: "MIC value of the full system (NP + coating)"
+
+          - name: peptide_mic
+            description: "MIC value of peptide alone"
+
+          - name: "viability_%"
+            description: "Viability of bacterial sample"
+
+          - name: viability_error
+            description: "Associated error for viability"
+
+          - name: journal_name
+            description: "Name of source journal"
+
+          - name: publisher
+            description: "Publisher"
+
+          - name: year
+            description: "Year of publication"
+
+          - name: title
+            description: "Title of the article"
+
+          - name: journal_is_oa
+            description: "Whether the journal is Open Access"
+
+          - name: is_oa
+            description: "Whether the article is OA"
+
+          - name: oa_status
+            description: "OA level (green, hybrid)"
+
+          - name: pdf
+            description: "PDF filename in archive"
+
+          - name: access
+            description: "1 = OA, 0 = closed"
+
+          - name: dbt_loaded_at
+            description: "Timestamp when the data was loaded into dbt"
+
+#Зачем это нужно? Это позволяет:
+#Ссылаться на источники в SQL-запросах через функцию source()
+#вместо жесткого указания схемы и таблицы
+#Документировать источники данных
+#Тестировать источники (например, проверять, что таблицы существуют)

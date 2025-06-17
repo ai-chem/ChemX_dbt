@@ -6,3 +6,6 @@
 
 -- 3. Подсчет NULL значений
 {{ get_null_counts('raw', 'seltox') }}
+
+-- 4. кол-во пропущенных значений
+{{ column_stats('raw', 'seltox') }}

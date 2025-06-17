@@ -6,3 +6,6 @@
 
 -- 3. Подсчет NULL значений
 {{ get_null_counts('raw', 'complexes') }}
+
+-- 4. кол-во пропущенных значений
+{{ column_stats('raw', 'complexes') }}

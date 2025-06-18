@@ -34,7 +34,10 @@ models:
   ChemX_dbt:
     UNIFIED:
       +materialized: view
+      +schema: UNIFIED    # Схема для моделей в папке UNIFIED
     CURATED:
       +materialized: view
+      +schema: curated    # Схема для моделей в папке CURATED
     SERVING:
       +materialized: table
+      +schema: serving    # Схема для моделей в папке SERVING

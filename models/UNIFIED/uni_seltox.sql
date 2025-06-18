@@ -1,6 +1,7 @@
 -- models/UNIFIED/uni_seltox.sql
 {{ config(
-    materialized='view'
+    materialized='view',
+    schema='unified'
 ) }}
 
 SELECT

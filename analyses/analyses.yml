@@ -1,8 +1,62 @@
 version: 2
 
 analyses:
-  - name: benzimidazoles_analysis
-    description: "Analysis of the benzimidazoles table"
+  - name: raw_analysis_benzimidazoles
+    description: Analysis of raw benzimidazoles data
 
-  - name: cytotox_analysis
-    description: "Analysis of the cytotox table"
+  - name: raw_analysis_co_crystals
+    description: Analysis of raw co_crystals data
+
+  - name: raw_analysis_complexes
+    description: Analysis of raw complexes data
+
+  - name: raw_analysis_cytotox
+    description: Analysis of raw cytotox data
+
+  - name: raw_analysis_eyedrops
+    description: Analysis of raw eyedrops data
+
+  - name: raw_analysis_nanomag
+    description: Analysis of raw nanomag data
+
+  - name: raw_analysis_nanozymes
+    description: Analysis of raw nanozymes data
+
+  - name: raw_analysis_oxazolidinones
+    description: Analysis of raw oxazolidinones data
+
+  - name: raw_analysis_seltox
+    description: Analysis of raw seltox data
+
+  - name: raw_analysis_synergy
+    description: Analysis of raw synergy data
+
+  - name: cur_analysis_benzimidazoles
+    description: Analysis of curated benzimidazoles data
+
+  - name: cur_analysis_co_crystals
+    description: Analysis of curated co_crystals data
+
+  - name: cur_analysis_complexes
+    description: Analysis of curated complexes data
+
+  - name: cur_analysis_cytotox
+    description: Analysis of curated cytotox data
+
+  - name: cur_analysis_eyedrops
+    description: Analysis of curated eyedrops data
+
+  - name: cur_analysis_nanomag
+    description: Analysis of curated nanomag data
+
+  - name: cur_analysis_nanozymes
+    description: Analysis of curated nanozymes data
+
+  - name: cur_analysis_oxazolidinones
+    description: Analysis of curated oxazolidinones data
+
+  - name: cur_analysis_seltox
+    description: Analysis of curated seltox data
+
+  - name: cur_analysis_synergy
+    description: Analysis of curated synergy data

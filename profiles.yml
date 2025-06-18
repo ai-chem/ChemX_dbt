@@ -8,5 +8,5 @@ ChemX_dbt:           # Имя профиля (должно совпадать с
       password: 1321122Ar
       port: 5432
       dbname: ChemX
-      schema: public      # или другую схему, если используешь не public
+      schema: dbt      # или другую схему, если используешь не public
       threads: 4

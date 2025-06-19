@@ -18,6 +18,12 @@ models:
       schema: curated
     tests:
       - no_duplicates  # Проверка на отсутствие дубликатов
+    columns:
+      - name: is_human
+        description: "Булевый столбец, указывающий на происхождение клеток: Human (H) → true, Animal (A) → false"
+      - name: access_bool
+        description: "Булевое представление столбца access: 1 → true (открытый доступ), 0 → false"
+
 
   - name: cur_nanozymes
     description: "Очищенные и дедуплицированные данные о нанозимах и их каталитической активности (серебряный слой)"
@@ -45,12 +51,22 @@ models:
 
   # Малые молекулы
   - name: cur_benzimidazoles
-    description: "Очищенные и дедуплицированные данные о бензимидазолах и их антибактериальной активности (серебряный слой)"
+    description: "Очищенные и нормализованные данные о бензимидазолах, полученные из uni_benzimidazoles.
+      Добавлены числовые значения target_value_parsed и target_value_error."
     config:
       materialized: view
-      schema: curated
+      schema: curated+
     tests:
       - no_duplicates  # Проверка на отсутствие дубликатов
+    columns:
+      - name: target_value
+        description: Исходное строковое значение (могут быть погрешности ±, пробелы, учёт запятых и т.д.)
+
+      - name: target_value_parsed
+        description: Нормализованное числовое значение, извлечённое из target_value (с заменой запятых и очисткой символов)
+
+      - name: target_value_error
+        description: Значение ошибки (±) из target_value, если указано. NULL, если отсутствует.
 
   - name: cur_oxazolidinones
     description: "Очищенные и дедуплицированные данные об оксазолидиноновых антибиотиках (серебряный слой)"
@@ -67,6 +83,13 @@ models:
       schema: curated
     tests:
       - no_duplicates  # Проверка на отсутствие дубликатов
+    columns:
+      - name: supplementary_bool
+        description: Булевое значение для supplementary (1 = true, 0 = false)
+
+      - name: target_cleaned
+        description: Значение из target_original, приведённое к числу (запятые заменены на точки)
+
 
   - name: cur_eyedrops
     description: "Очищенные и дедуплицированные данные о проницаемости роговицы для малых молекул (серебряный слой)"
@@ -83,3 +106,9 @@ models:
       schema: curated
     tests:
       - no_duplicates  # Проверка на отсутствие дубликатов
+    columns:
+        - name: ratio_component_1
+          description: Первая часть соотношения из ratio_cocrystal, приведённая к числу.
+
+        - name: ratio_component_2
+          description: Вторая часть соотношения из ratio_cocrystal, приведённая к числу.

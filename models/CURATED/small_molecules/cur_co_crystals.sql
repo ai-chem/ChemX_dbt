@@ -1,8 +1,17 @@
--- models/curated/nanomaterials/cur_co_crystals.sql
 {{ config(
     materialized='view',
     schema='curated'
 ) }}
 
--- Используем макрос для дедубликации
-{{ deduplicate_model('uni_co_crystals') }}
+with base as (
+
+    {{ deduplicate_model('uni_co_crystals') }}
+
+)
+
+select
+    base.*,
+    {{ parse_ratio_component_1('ratio_cocrystal') }} as ratio_component_1,
+    {{ parse_ratio_component_2('ratio_cocrystal') }} as ratio_component_2
+
+from base

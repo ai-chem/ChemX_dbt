@@ -4,17 +4,17 @@
     post_hook="ALTER TABLE {{ this }} ADD PRIMARY KEY (id)"
 ) }}
 
-with base as (
+with dedup_nanomag as (
 
     {{ deduplicate_model('uni_nanomag') }}
 
 )
 
 select
-    base.*,
+    dedup_nanomag.*,
 
     -- Булева интерпретация поля access
     {{ bool_from_int('access') }} as access_bool,
     {{ normalize_nanoparticle("nanoparticle") }} as normalized_nanoparticle
 
-from base
+from dedup_nanomag

@@ -3,7 +3,7 @@
     schema='curated'
 ) }}
 
-with base as (
+with dedup_oxazolidinones as (
 
     select *
     from {{ ref('uni_oxazolidinones') }}
@@ -13,9 +13,9 @@ with base as (
 )
 
 select
-    base.*,
+    dedup_oxazolidinones.*,
 
     {{ bool_from_int('access') }} as access_bool,
     {{ parse_decimal_comma_to_float('target_value') }} as target_value_parsed
 
-from base
+from dedup_oxazolidinones

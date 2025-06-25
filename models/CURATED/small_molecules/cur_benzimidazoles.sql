@@ -3,14 +3,14 @@
     schema='curated'
 ) }}
 
-with base as (
+with dedup_benzimidazoles as (
 
     {{ deduplicate_model('uni_benzimidazoles') }}
 
 )
 
 select
-    base.*,
+    dedup_benzimidazoles.*,
     {{ parse_numeric_with_error('target_value') }} AS target_value_parsed,
     {{ parse_error_component('target_value') }} AS target_value_error
-from base
+from dedup_benzimidazoles

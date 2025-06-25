@@ -4,7 +4,7 @@
     post_hook="ALTER TABLE {{ this }} ADD PRIMARY KEY (serial_number)"
 ) }}
 
-with base as (
+with dedup_synergy as (
 
     -- Берём таблицу и удаляем записи с некорректными значениями
     select *
@@ -28,11 +28,11 @@ np_dim as (
 
 joined as (
     select
-        base.*,
+        dedup_synergy.*,
         np_dim.nanoparticle_id
-    from base
+    from dedup_synergy
     left join np_dim
-        on base.nanoparticle = np_dim.canonical_name
+        on dedup_synergy.nanoparticle = np_dim.canonical_name
 )
 
 select

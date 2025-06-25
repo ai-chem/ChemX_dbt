@@ -4,7 +4,7 @@
     post_hook="ALTER TABLE {{ this }} ADD PRIMARY KEY (serial_number)"
 ) }}
 
-with base as (
+with dedup_seltox as (
 
     select *
     from {{ ref('uni_seltox') }}
@@ -19,11 +19,11 @@ np_dim as (
 
 joined as (
     select
-        base.*,
+        dedup_seltox.*,
         np_dim.nanoparticle_id
-    from base
+    from dedup_seltox
     left join np_dim
-        on base.nanoparticle = np_dim.canonical_name
+        on dedup_seltox.nanoparticle = np_dim.canonical_name
 )
 
 select

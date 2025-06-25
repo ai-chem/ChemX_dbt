@@ -3,14 +3,14 @@
     schema='curated'
 ) }}
 
-with base as (
+with dedup_complexes as (
 
     {{ deduplicate_model('uni_complexes') }}
 
 )
 
 select
-    base.*,
+    dedup_complexes.*,
 
     -- Перевод supplementary в boolean
     case
@@ -22,4 +22,4 @@ select
     -- Очистка target_original от запятых
     {{ parse_decimal_comma_to_float('target_original') }} as target_cleaned
 
-from base
+from dedup_complexes

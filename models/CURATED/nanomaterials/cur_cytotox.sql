@@ -4,7 +4,7 @@
     post_hook="ALTER TABLE {{ this }} ADD PRIMARY KEY (serial_number)"
 ) }}
 
-with base as (
+with dedup_cytotox as (
 
     {{ deduplicate_model('uni_cytotox') }}
 
@@ -18,11 +18,11 @@ np_dim as (
 -- Соединяем основную таблицу с справочником по названию наночастицы
 joined as (
     select
-        base.*,
+        dedup_cytotox.*,
         np_dim.nanoparticle_id
-    from base
+    from dedup_cytotox
     left join np_dim
-        on base.nanoparticle = np_dim.canonical_name
+        on dedup_cytotox.nanoparticle = np_dim.canonical_name
 )
 
 select

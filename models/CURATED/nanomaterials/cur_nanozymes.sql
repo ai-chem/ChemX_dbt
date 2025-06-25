@@ -2,7 +2,8 @@
 
 {{ config(
     materialized='table',
-    schema='curated'
+    schema='curated',
+    post_hook="ALTER TABLE {{ this }} ADD PRIMARY KEY (id)"
 ) }}
 
 with base as (

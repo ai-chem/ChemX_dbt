@@ -1,10 +1,11 @@
 {{ config(
     materialized='view',
-    schema='unified'
+    schema='unified',
+    unique_key='serial_number'
 ) }}
 
 SELECT
-    sn,
+    sn AS serial_number,
     np AS nanoparticle,  -- 🔁 Переименование поля
     bacteria,
     strain,

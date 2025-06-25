@@ -1,43 +1,52 @@
 {{ config(
     materialized='view',
-    schema='unified'
+    schema='unified',
+    unique_key='id'
 ) }}
 
-SELECT
+with base as (
 
-    -- Переименование formula → nanoparticle
-    formula AS nanoparticle,
+    SELECT
 
-    -- Остальные поля
-    activity,
-    syngony,
-    length,
-    width,
-    depth,
-    surface,
-    km_value,
-    km_unit,
-    vmax_value,
-    vmax_unit,
-    target_source,
-    reaction_type,
-    c_min,
-    c_max,
-    c_const,
-    c_const_unit,
-    ccat_value,
-    ccat_unit,
-    ph,
-    temperature,
-    doi,
-    pdf,
-    access,
-    title,
-    journal,
-    year,
+        -- Переименование formula → nanoparticle
+        formula AS nanoparticle,
 
-    -- Метаданные DBT
-    current_timestamp AS dbt_loaded_at,
-    'nanozymes' AS source_table
+        -- Остальные поля
+        activity,
+        syngony,
+        length,
+        width,
+        depth,
+        surface,
+        km_value,
+        km_unit,
+        vmax_value,
+        vmax_unit,
+        target_source,
+        reaction_type,
+        c_min,
+        c_max,
+        c_const,
+        c_const_unit,
+        ccat_value,
+        ccat_unit,
+        ph,
+        temperature,
+        doi,
+        pdf,
+        access,
+        title,
+        journal,
+        year,
 
-FROM {{ source('raw', 'nanozymes') }}
+        -- Метаданные DBT
+        current_timestamp AS dbt_loaded_at,
+        'nanozymes' AS source_table
+
+    FROM {{ source('raw', 'nanozymes') }}
+)
+
+select
+    *,
+    row_number() over () as id
+from base

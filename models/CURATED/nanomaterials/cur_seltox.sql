@@ -1,5 +1,5 @@
 {{ config(
-    materialized='view',
+    materialized='table',
     schema='curated'
 ) }}
 
@@ -15,6 +15,9 @@ with base as (
 select
     base.*,
 
-    {{ parse_decimal_comma_to_float('mic_np_µg_ml') }} as mic_np_µg_ml_parsed
+    {{ parse_decimal_comma_to_float('mic_np_µg_ml') }} as mic_np_µg_ml_parsed,
+
+    -- Нормализуем форму наночастицы
+    {{ normalize_shape("shape") }} as normalized_shape
 
 from base

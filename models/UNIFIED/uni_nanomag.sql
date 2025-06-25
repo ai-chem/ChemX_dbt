@@ -5,7 +5,7 @@
 
 SELECT
     -- Поля без изменений
-    name,
+    name AS nanoparticle,
     np_shell_2,
     np_hydro_size,
     xrd_scherrer_size,

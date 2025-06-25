@@ -7,7 +7,7 @@
 SELECT
     -- Все исходные поля без изменений
     sn,
-    material,
+    material AS nanoparticle,
     shape,
     coat_functional_group,
     synthesis_method,

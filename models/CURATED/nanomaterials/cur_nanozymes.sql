@@ -1,7 +1,7 @@
 -- models/curated/nanomaterials/cur_nanozymes.sql
 
 {{ config(
-    materialized='view',
+    materialized='table',
     schema='curated'
 ) }}
 

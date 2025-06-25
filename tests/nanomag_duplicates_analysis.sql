@@ -27,7 +27,7 @@ duplicate_groups AS (
 SELECT
     rh.*,
     dg.group_size,
-    ROW_NUMBER() OVER (PARTITION BY rh.row_hash ORDER BY rh.name) AS duplicate_number
+    ROW_NUMBER() OVER (PARTITION BY rh.row_hash ORDER BY rh.nanoparticle) AS duplicate_number
 FROM
     row_hashes rh
 JOIN

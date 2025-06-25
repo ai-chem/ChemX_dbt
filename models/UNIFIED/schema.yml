@@ -279,7 +279,7 @@ sources:
           - name: sn
             description: "Index of the sample (serial number)"
 
-          - name: material
+          - name: nanoparticle
             description: "Composition of the nanoparticle/material tested (e.g., SiO₂, Ag)"
 
           - name: shape
@@ -426,7 +426,7 @@ sources:
 
         description: "Comprehensive data about magnetic nanoparticles, including core-shell structures and their magnetic properties"
         columns:
-          - name: name
+          - name: nanoparticle
             description: "Sample or material name (if given)"
 
           - name: np_shell_2
@@ -549,7 +549,7 @@ sources:
 
         description: "Data on nanozymes, including their chemical composition, structural properties, and catalytic activity"
         columns:
-          - name: formula
+          - name: nanoparticle
             description: "Chemical formula of the nanozyme (e.g., Fe₃O₄, CeO₂)"
 
           - name: activity
@@ -741,7 +741,7 @@ sources:
           - name: sn
             description: "Internal index for entries"
 
-          - name: np
+          - name: nanoparticle
             description: "Name of the nanoparticle (e.g., Ag, Au, ZnO)"
 
           - name: coating
@@ -855,7 +855,7 @@ sources:
           - name: sn
             description: "Internal index of the record"
 
-          - name: np
+          - name: nanoparticle
             description: "Nanoparticle name (Ag, Au, CuO, etc.)"
 
           - name: bacteria

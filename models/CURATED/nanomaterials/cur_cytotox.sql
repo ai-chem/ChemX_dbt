@@ -1,5 +1,5 @@
 {{ config(
-    materialized='view',
+    materialized='table',
     schema='curated',
     unique_key='sn'
 ) }}
@@ -20,6 +20,9 @@ select
     {{ bool_from_text_equals('human_animal', 'H') }} as is_human,
 
     -- Булево: access 1 → true
-    {{ bool_from_int('access') }} as access_bool
+    {{ bool_from_int('access') }} as access_bool,
+
+    -- Нормализуем форму наночастицы
+    {{ normalize_shape("shape") }} as normalized_shape
 
 from base

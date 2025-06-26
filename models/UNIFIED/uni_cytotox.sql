@@ -1,13 +1,14 @@
 -- models/UNIFIED/uni_cytotox.sql
 {{ config(
     materialized='view',
-    schema='unified'
+    schema='unified',
+    unique_key='serial_number'
 ) }}
 
 SELECT
     -- Все исходные поля без изменений
-    sn,
-    material,
+    sn AS serial_number,
+    material AS nanoparticle,
     shape,
     coat_functional_group,
     synthesis_method,

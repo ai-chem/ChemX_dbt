@@ -1,13 +1,47 @@
 -- models/UNIFIED/uni_seltox.sql
 {{ config(
     materialized='view',
-    schema='unified'
+    schema='unified',
+    unique_key='serial_number'
 ) }}
 
 SELECT
-    *,
-    -- Добавляем метаданные
-    current_timestamp AS dbt_loaded_at,
-    'seltox' AS source_table
-FROM
-    {{ source('raw', 'seltox') }}
+    sn AS serial_number,
+    np AS nanoparticle,
+    coating,
+    bacteria,
+    mdr,
+    strain,
+    np_synthesis,
+    method,
+    "mic_np_µg_ml",
+    concentration,
+    zoi_np_mm,
+    np_size_min_nm,
+    np_size_max_nm,
+    np_size_avg_nm,
+    shape,
+    time_set_hours,
+    zeta_potential_mv,
+    solvent_for_extract,
+    temperature_for_extract_c,
+    duration_preparing_extract_min,
+    precursor_of_np,
+    concentration_of_precursor_mm,
+    hydrodynamic_diameter_nm,
+    ph_during_synthesis,
+    reference,
+    doi,
+    article_list,
+    journal_name,
+    publisher,
+    year,
+    title,
+    journal_is_oa,
+    is_oa,
+    oa_status,
+    pdf,
+    access,
+    CURRENT_TIMESTAMP AS dbt_loaded_at,
+    'seltox'::text AS source_table
+FROM {{ source('raw', 'seltox') }}

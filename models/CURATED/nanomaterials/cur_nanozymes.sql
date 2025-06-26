@@ -1,18 +1,19 @@
 -- models/curated/nanomaterials/cur_nanozymes.sql
 
 {{ config(
-    materialized='view',
-    schema='curated'
+    materialized='table',
+    schema='curated',
+    post_hook="ALTER TABLE {{ this }} ADD PRIMARY KEY (id)"
 ) }}
 
-with base as (
+with dedup_nanozymes as (
 
     {{ deduplicate_model('uni_nanozymes') }}
 
 )
 
 select
-    base.*,
+    dedup_nanozymes.*,
 
     -- Преобразование access: 1 → true, 0 → false
     {{ bool_from_int('access') }} as access_bool,
@@ -32,4 +33,4 @@ select
     {{ parse_range_component('depth', 'upper') }} as depth_upper,
     {{ parse_range_component('depth', 'mean') }}  as depth_mean
 
-from base
+from dedup_nanozymes

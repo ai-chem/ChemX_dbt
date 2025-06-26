@@ -1,9 +1,10 @@
 {{ config(
-    materialized='view',
-    schema='curated'
+    materialized='table',
+    schema='curated',
+    post_hook="ALTER TABLE {{ this }} ADD PRIMARY KEY (serial_number)"
 ) }}
 
-with base as (
+with dedup_synergy as (
 
     -- Берём таблицу и удаляем записи с некорректными значениями
     select *
@@ -19,16 +20,24 @@ with base as (
             OR regexp_replace(zeta_potential_mv, ',', '.', 'g') ~ '^[-+]?\d+(\.\d+)?$'
         )
 
+),
+
+np_dim as (
+    select * from {{ ref('nanoparticle_list') }}
+),
+
+joined as (
+    select
+        dedup_synergy.*,
+        np_dim.nanoparticle_id
+    from dedup_synergy
+    left join np_dim
+        on dedup_synergy.nanoparticle = np_dim.canonical_name
 )
 
 select
-    base.*,
-
-    -- Булевый признак доступа
+    joined.*,
     {{ bool_from_int('access') }} as access_bool,
-
-    -- Обработка текстовых чисел с запятой
     {{ parse_decimal_comma_to_float('np_size_min_nm') }} as np_size_min_nm_parsed,
     {{ parse_decimal_comma_to_float('zeta_potential_mv') }} as zeta_potential_mv_parsed
-
-from base
+from joined

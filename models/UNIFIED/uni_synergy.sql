@@ -9,7 +9,7 @@ SELECT
     np AS nanoparticle,  -- 🔁 Переименование поля
     bacteria,
     strain,
-    np_synthesis,
+    np_synthesis as synthesis_method,
     drug,
     drug_dose_µg_disk,
     np_concentration_µg_ml,

@@ -12,7 +12,7 @@ SELECT
     bacteria,
     mdr,
     strain,
-    np_synthesis,
+    np_synthesis AS synthesis_method,
     method,
     "mic_np_µg_ml",
     concentration,

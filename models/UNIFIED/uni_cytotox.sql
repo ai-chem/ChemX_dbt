@@ -14,7 +14,7 @@ SELECT
     synthesis_method,
     surface_charge,
     size_in_medium_nm,
-    zeta_in_medium_mv,
+    zeta_in_medium_mv AS zeta_potential_mv  ,
     no_of_cells_cells_well,
     human_animal,
     cell_source,

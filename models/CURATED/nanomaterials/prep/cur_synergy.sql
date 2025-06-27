@@ -20,24 +20,15 @@ with dedup_synergy as (
             OR regexp_replace(zeta_potential_mv, ',', '.', 'g') ~ '^[-+]?\d+(\.\d+)?$'
         )
 
-),
-
-np_dim as (
-    select * from {{ ref('nanoparticle_list') }}
-),
-
-joined as (
-    select
-        dedup_synergy.*,
-        np_dim.nanoparticle_id
-    from dedup_synergy
-    left join np_dim
-        on dedup_synergy.nanoparticle = np_dim.canonical_name
 )
-
 select
-    joined.*,
+    dedup_synergy.*,
     {{ bool_from_int('access') }} as access_bool,
     {{ parse_decimal_comma_to_float('np_size_min_nm') }} as np_size_min_nm_parsed,
-    {{ parse_decimal_comma_to_float('zeta_potential_mv') }} as zeta_potential_mv_parsed
-from joined
+    {{ parse_decimal_comma_to_float('zeta_potential_mv') }} as zeta_potential_mv_parsed,
+
+    {{ normalize_shape("shape") }} as normalized_shape,
+    {{ standardize_synthesis_method('synthesis_method') }} as standardized_synthesis_method,
+    {{ create_has_coating_column('coating_with_antimicrobial_peptide_polymers') }}
+    -- { generate_nanoparticle_ids() }}
+from dedup_synergy

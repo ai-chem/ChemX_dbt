@@ -17,7 +17,7 @@ select
     np_dim.nanoparticle_id
 from cur_synergy
 left join np_dim
-    on cur_synergy.nanoparticle = np_dim.nanoparticle
-    and cur_synergy.normalized_shape = np_dim.normalized_shape
-    and cur_synergy.has_coating = np_dim.has_coating
-    and cur_synergy.np_size_avg_nm = np_dim.np_size_avg_nm
+    on cur_synergy.nanoparticle IS NOT DISTINCT FROM np_dim.nanoparticle
+    and cur_synergy.normalized_shape IS NOT DISTINCT FROM np_dim.normalized_shape
+    and cur_synergy.has_coating IS NOT DISTINCT FROM np_dim.has_coating
+    and cur_synergy.np_size_avg_nm IS NOT DISTINCT FROM np_dim.np_size_avg_nm

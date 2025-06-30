@@ -20,5 +20,4 @@ select
     {{ normalize_shape("shape") }} as normalized_shape,
     {{ standardize_synthesis_method('synthesis_method') }} as standardized_synthesis_method,
     {{ create_has_coating_column('coating', 'bigint') }}
-    -- "{ generate_nanoparticle_ids() }}"
 from dedup_seltox

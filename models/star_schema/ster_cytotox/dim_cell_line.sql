@@ -1,0 +1,30 @@
+{{ config(
+    materialized='table',
+    schema='star_schema'
+) }}
+
+with unique_cell_lines as (
+    select distinct
+        cell_type,
+        human_animal,
+        cell_source,
+        cell_tissue,
+        cell_morphology,
+        cell_age,
+        is_human
+    from {{ ref('final_cur_cytotox') }}
+)
+
+select
+    row_number() over (
+        order by {{ generate_cell_line_name() }}
+    ) as cell_line_id,
+    {{ generate_cell_line_name() }} as canonical_cell_line_name,
+    cell_type,
+    human_animal,
+    cell_source,
+    cell_tissue,
+    cell_morphology,
+    cell_age,
+    is_human
+from unique_cell_lines

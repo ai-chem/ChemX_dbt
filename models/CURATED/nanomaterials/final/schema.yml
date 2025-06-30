@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: final_cur_cytotox
+    description: "Финальная модель по цитотоксичности наночастиц"
+    columns:
+      - name: serial_number
+        description: "Уникальный идентификатор эксперимента"
+        tests:
+          - unique
+          - not_null
+      - name: nanoparticle_id
+        description: "Внешний ключ на справочник наночастиц"
+        tests:
+          - not_null
+
+  - name: final_cur_seltox
+    description: "Финальная модель по селективной токсичности"
+    columns:
+      - name: serial_number
+        tests:
+          - unique
+          - not_null
+      - name: nanoparticle_id
+        tests:
+          - not_null
+
+  - name: final_cur_synergy
+    description: "Финальная модель по синергии"
+    columns:
+      - name: serial_number
+        tests:
+          - unique
+          - not_null
+      - name: nanoparticle_id
+        tests:
+          - not_null
+
+  - name: final_cur_nanomag
+    description: "Финальная модель nanomag"
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+
+  - name: final_cur_nanozymes
+    description: "Финальная модель nanomag"
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+
+
+

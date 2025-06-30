@@ -1,3 +1,7 @@
+-- Присоединение идентификатора наночастицы (nanoparticle_id) к данным по синергетическим эффектам (synergy).
+-- Для каждой строки из cur_synergy определяется уникальный идентификатор наночастицы на основе справочника nanoparticle_list.
+-- Используется оператор IS NOT DISTINCT FROM для корректного сопоставления строк даже при наличии NULL в ключевых полях.
+
 {{ config(
     materialized='table',
     schema='curated',
@@ -17,6 +21,7 @@ select
     np_dim.nanoparticle_id
 from cur_synergy
 left join np_dim
+    -- Сопоставляем по всем ключевым полям, учитывая возможные NULL
     on cur_synergy.nanoparticle IS NOT DISTINCT FROM np_dim.nanoparticle
     and cur_synergy.normalized_shape IS NOT DISTINCT FROM np_dim.normalized_shape
     and cur_synergy.has_coating IS NOT DISTINCT FROM np_dim.has_coating

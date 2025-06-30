@@ -1,3 +1,7 @@
+-- Присоединение идентификатора наночастицы (nanoparticle_id) к данным по цитотоксичности.
+-- Для каждой строки из cur_cytotox определяется уникальный идентификатор наночастицы на основе справочника nanoparticle_list.
+-- Используется оператор IS NOT DISTINCT FROM, чтобы корректно сопоставлять строки даже при наличии NULL в ключевых полях.
+
 {{ config(
     materialized='table',
     schema='curated',
@@ -17,6 +21,7 @@ select
     np_list.nanoparticle_id
 from cur_cytotox
 left join np_list
+  -- Сопоставляем по всем ключевым полям, учитывая возможные NULL
   on cur_cytotox.nanoparticle IS NOT DISTINCT FROM np_list.nanoparticle
   and cur_cytotox.normalized_shape IS NOT DISTINCT FROM np_list.normalized_shape
   and cur_cytotox.has_coating IS NOT DISTINCT FROM np_list.has_coating

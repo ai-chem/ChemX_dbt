@@ -1,3 +1,20 @@
+{#
+    Приводит описание метода синтеза наночастиц к одной из стандартных категорий:
+    'Biosynthesis', 'Green Synthesis', 'Chemical Synthesis', 'Physical Methods', 'Commercial', 'Other'.
+
+    Как работает:
+    Ищет ключевые слова в строке с методом синтеза (без учёта регистра).
+    Если найдено слово, относящееся к биосинтезу, возвращает 'Biosynthesis', и т.п.
+    Если ни одно условие не выполнено, возвращает 'Other'.
+
+    Пример:
+      'green synthesis using plant extract' → 'Green Synthesis'
+
+    Аргумент:
+    column_name: имя столбца с исходным описанием метода синтеза
+#}
+
+
 {% macro standardize_synthesis_method(column_name) %}
 
 CASE

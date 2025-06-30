@@ -1,3 +1,8 @@
+-- Модель: cur_nanomag
+-- Нормализация и подготовка данных.
+-- Здесь выполняется удаление дублей, булева интерпретация признака доступа и нормализация названия наночастицы.
+-- Модель используется как промежуточный слой для дальнейшей аналитики и построения справочников.
+
 {{ config(
     materialized='table',
     schema='curated',
@@ -5,16 +10,17 @@
 ) }}
 
 with dedup_nanomag as (
-
+    -- Удаляем дублирующиеся строки из исходной таблицы uni_nanomag
     {{ deduplicate_model('uni_nanomag') }}
-
 )
 
 select
     dedup_nanomag.*,
 
-    -- Булева интерпретация поля access
+    -- Булево: признак открытого доступа (access = 1)
     {{ bool_from_int('access') }} as access_bool,
+
+    -- Нормализуем название наночастицы (например, приведение к единому формату)
     {{ normalize_nanoparticle("nanoparticle") }} as normalized_nanoparticle
 
 from dedup_nanomag

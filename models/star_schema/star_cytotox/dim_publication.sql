@@ -3,7 +3,8 @@
 -- Используется для связи с факт-таблицей через publication_id.
 {{ config(
     materialized='table',
-    schema='star_schema'
+    schema='star_schema',
+    post_hook="ALTER TABLE {{ this }} ADD PRIMARY KEY (publication_id)"
 ) }}
 
 select

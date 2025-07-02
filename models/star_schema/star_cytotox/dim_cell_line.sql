@@ -4,7 +4,8 @@
 
 {{ config(
     materialized='table',
-    schema='star_schema'
+    schema='star_schema',
+     post_hook="ALTER TABLE {{ this }} ADD PRIMARY KEY (cell_line_id)"
 ) }}
 
 with unique_cell_lines as (

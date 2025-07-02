@@ -1,15 +1,68 @@
-Welcome to your new dbt project!
 
-### Using the starter project
+# ChemX_dbt
 
-Try running the following commands:
-- dbt run
-- dbt test
+## О проекте
 
+**ChemX_dbt** — это проект для обработки, нормализации и аналитики данных по наноматериалам и малым молекулам с помощью [dbt](https://www.getdbt.com/).  
+Проект реализует слоистую архитектуру моделей.
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+---
+
+## Структура папок
+
+- **models/UNIFIED/** — исходные (сырые) данные, приведённые к единому формату, в редких случаях изменены названия столбцов.
+- **models/CURATED/nanomaterials/prep/** — обработка, нормализация и очистка данных.
+- **models/CURATED/nanomaterials/final/** — финальные модели для наноматериалов.
+- **models/CURATED/star_schema/** — реализация схемы "звезда" (факт-таблицы, справочники).
+- **macros/** — макросы для нормализации, парсинга и тестирования данных.
+- **analyses/** — SQL-аналитика и проверки.
+- **tests/** — пользовательские тесты и проверки качества данных.
+
+---
+
+## Основные сущности
+
+Разберём на примере star-schema/cytotox:
+- **Факт-таблицы** (например, `fact_experiments`): содержат события/измерения, ссылаются на справочники через внешние ключи.
+- **Справочники (dimensions)**:  
+  - `dim_nanoparticle` — уникальные наночастицы  
+  - `dim_publication` — публикации  
+  - `dim_cell_line` — клеточные линии
+
+---
+
+## Как запустить проект
+
+1. Установите dbt (Postgres) и настройте подключение к вашей базе данных.
+2. Перейдите в папку проекта.
+3. Выполните команду:
+   ```
+   dbt build
+   ```
+4. Для запуска тестов:
+   ```
+   dbt test
+   ```
+
+---
+
+## Особенности
+
+- Для идентификации наночастиц используется составной ключ:  
+  `nanoparticle`, `normalized_shape`, `has_coating`, `np_size_avg_nm`
+- Справочники строятся на основе обработанных данных, чтобы избежать дублирования и обеспечить чистоту аналитики.
+
+---
+
+## Как добавить новую модель или справочник
+
+1. Добавьте SQL-файл в нужную папку (например, в `models/star_schema/`).
+2. Оформите описание модели в начале файла (docstring).
+3. Добавьте тесты, если требуется.
+4. Запустите `dbt build` и проверьте результат.
+
+---
+
+**P.S.**  
+Документация будет дополняться по мере развития проекта.
+

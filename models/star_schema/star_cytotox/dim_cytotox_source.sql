@@ -8,7 +8,7 @@
     post_hook="ALTER TABLE {{ this }} ADD PRIMARY KEY (source_id)"
 ) }}
 
--- dim_source.sql
+-- dim_cytotox_source.sql
 select
     row_number() over (
         order by source_table, dbt_loaded_at, dbt_curated_at

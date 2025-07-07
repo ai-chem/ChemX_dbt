@@ -36,4 +36,4 @@ from (
         access,
         access_bool
     from {{ ref('final_cur_synergy') }}
-) t
+) unique_publications

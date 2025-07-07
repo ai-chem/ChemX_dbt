@@ -29,4 +29,4 @@ from (
         access,
         access_bool
     from {{ ref('final_cur_nanomag') }}
-) t
+) unique_publications

@@ -36,4 +36,4 @@ from (
         access,
         access_bool
     from {{ ref('final_cur_cytotox') }}
-) t
+) unique_publications

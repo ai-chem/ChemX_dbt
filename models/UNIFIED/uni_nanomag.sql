@@ -66,5 +66,5 @@ with base as (
 
 select
     *,
-    row_number() over () as id  -- primery key
+    row_number() over () as id  -- primary key
 from base

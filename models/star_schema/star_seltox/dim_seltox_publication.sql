@@ -35,4 +35,4 @@ from (
         pdf,
         access
     from {{ ref('final_cur_seltox') }}
-) t
+) unique_publications

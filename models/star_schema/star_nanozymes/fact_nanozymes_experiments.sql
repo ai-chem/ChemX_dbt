@@ -1,8 +1,3 @@
--- Факт-таблица экспериментов (fact_nanozymes_experiments).
--- Каждая строка — отдельный каталитический эксперимент с одной наночастицей.
--- Ссылается на справочники наночастиц, публикаций и источников через внешние ключи.
--- Содержит только специфичные для эксперимента поля.
-
 {{ config(
     materialized='table',
     schema='star_schema',
@@ -12,11 +7,10 @@
 with publication as (
     select
         doi,
-        row_number() over (order by doi) as publication_id
-    from (
-        select distinct doi from {{ ref('final_cur_nanozymes') }}
-    ) as unique_publications
+        publication_id
+    from {{ ref('dim_nanozymes_publication') }}
 ),
+
 nanoparticle as (
     select
         nanoparticle,
@@ -31,50 +25,26 @@ nanoparticle as (
         depth_lower,
         depth_upper,
         depth_mean,
-        row_number() over (
-            order by nanoparticle, syngony, surface,
-                     length_lower, length_upper, length_mean,
-                     width_lower, width_upper, width_mean,
-                     depth_lower, depth_upper, depth_mean
-        ) as nanoparticle_id
-    from (
-        select distinct
-            nanoparticle,
-            syngony,
-            surface,
-            length_lower,
-            length_upper,
-            length_mean,
-            width_lower,
-            width_upper,
-            width_mean,
-            depth_lower,
-            depth_upper,
-            depth_mean
-        from {{ ref('final_cur_nanozymes') }}
-    ) as unique_nanoparticles
+        nanoparticle_id
+    from {{ ref('dim_nanozymes_nanoparticle') }}
 ),
+
 source as (
     select
         source_table,
         dbt_loaded_at,
         dbt_curated_at,
-        row_number() over (order by source_table, dbt_loaded_at, dbt_curated_at) as source_id
-    from (
-        select distinct source_table, dbt_loaded_at, dbt_curated_at from {{ ref('final_cur_nanozymes') }}
-    ) as unique_sources
+        source_id
+    from {{ ref('dim_nanozymes_source') }}
 )
 
 select
-    -- Уникальный идентификатор строки (первичный ключ)
     final_cur_nanozymes.id,
 
-    -- Внешние ключи на справочники
     nanoparticle.nanoparticle_id,
     publication.publication_id,
     source.source_id,
 
-    -- Экспериментальные параметры (только переменные, не входящие в справочники)
     final_cur_nanozymes.activity,
     final_cur_nanozymes.reaction_type,
     final_cur_nanozymes.target_source,
@@ -93,7 +63,6 @@ select
 
 from {{ ref('final_cur_nanozymes') }} as final_cur_nanozymes
 
--- Присоединяем справочник наночастиц по ключевым полям
 left join nanoparticle
     on final_cur_nanozymes.nanoparticle IS NOT DISTINCT FROM nanoparticle.nanoparticle
     and final_cur_nanozymes.syngony IS NOT DISTINCT FROM nanoparticle.syngony
@@ -108,11 +77,9 @@ left join nanoparticle
     and final_cur_nanozymes.depth_upper IS NOT DISTINCT FROM nanoparticle.depth_upper
     and final_cur_nanozymes.depth_mean IS NOT DISTINCT FROM nanoparticle.depth_mean
 
--- Присоединяем справочник публикаций по DOI
 left join publication
     on final_cur_nanozymes.doi = publication.doi
 
--- Присоединяем справочник источников по source_table, dbt_loaded_at, dbt_curated_at
 left join source
     on final_cur_nanozymes.source_table = source.source_table
     and final_cur_nanozymes.dbt_loaded_at = source.dbt_loaded_at

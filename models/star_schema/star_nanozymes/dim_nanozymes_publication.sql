@@ -1,13 +1,15 @@
--- Справочник публикаций.
--- Содержит уникальные публикации из nanozymes и их основные атрибуты.
--- Используется для связи с факт-таблицей через publication_id.
-
 {{ config(
     materialized='table',
     schema='star_schema',
     post_hook="ALTER TABLE {{ this }} ADD PRIMARY KEY (publication_id)"
 ) }}
 
+with ranked as (
+    select
+        *,
+        row_number() over (partition by doi order by doi) as rn
+    from {{ ref('final_cur_nanozymes') }}
+)
 select
     row_number() over (order by doi) as publication_id,
     doi,
@@ -17,14 +19,5 @@ select
     pdf,
     access,
     access_bool
-from (
-    select distinct
-        doi,
-        journal,
-        year,
-        title,
-        pdf,
-        access,
-        access_bool
-    from {{ ref('final_cur_nanozymes') }}
-) as unique_publications
+from ranked
+where rn = 1

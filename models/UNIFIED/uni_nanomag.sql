@@ -8,7 +8,7 @@ with base as (
 
     SELECT
         -- Поля без изменений
-        name AS nanoparticle,
+        name,
         np_shell_2,
         np_hydro_size,
         xrd_scherrer_size,
@@ -19,7 +19,7 @@ with base as (
         emic_size,
         instrument,
         core_shell_formula,
-        np_core,
+        np_core AS nanoparticle,
         np_shell,
         space_group_core,
         space_group_shell,
@@ -66,5 +66,5 @@ with base as (
 
 select
     *,
-    row_number() over () as id  -- surrogate key
+    row_number() over () as id  -- primary key
 from base

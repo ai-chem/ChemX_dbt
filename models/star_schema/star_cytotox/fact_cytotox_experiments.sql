@@ -36,9 +36,9 @@ select
 from {{ ref('final_cur_cytotox') }} final_cur_cytotox
 left join pub
     on final_cur_cytotox.doi = pub.doi
-left join {{ ref('dim_cell_line') }} dim_cell_line
+left join {{ ref("dim_cytotox_cell_line") }} dim_cell_line
     on {{ generate_cell_line_name('final_cur_cytotox') }} = dim_cell_line.canonical_cell_line_name
-left join {{ ref('dim_source') }} source
+left join {{ ref("dim_cytotox_source") }} source
     on final_cur_cytotox.source_table = source.source_table
     and final_cur_cytotox.dbt_loaded_at = source.dbt_loaded_at
     and final_cur_cytotox.dbt_curated_at = source.dbt_curated_at

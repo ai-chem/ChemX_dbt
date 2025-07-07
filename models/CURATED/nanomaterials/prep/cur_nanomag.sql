@@ -18,9 +18,6 @@ select
     dedup_nanomag.*,
 
     -- Булево: признак открытого доступа (access = 1)
-    {{ bool_from_int('access') }} as access_bool,
-
-    -- Нормализуем название наночастицы (например, приведение к единому формату)
-    {{ normalize_nanoparticle("nanoparticle") }} as normalized_nanoparticle
+    {{ bool_from_int('access') }} as access_bool
 
 from dedup_nanomag

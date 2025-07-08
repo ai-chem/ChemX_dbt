@@ -1,8 +1,3 @@
--- Факт-таблица экспериментов (fact_synergy_experiments).
--- Каждая строка — отдельный эксперимент или измерение.
--- Ссылается на справочники наночастиц, бактерий, лекарств, публикаций и источников через внешние ключи.
--- Содержит только специфичные для эксперимента поля.
-
 {{ config(
     materialized='table',
     schema='star_schema',
@@ -12,66 +7,59 @@
 with publication as (
     select
         doi,
-        row_number() over (order by doi) as publication_id
-    from (
-        select distinct doi from {{ ref('final_cur_synergy') }}
-    ) as unique_publications
+        publication_id
+    from {{ ref('dim_synergy_publication') }}
 ),
+
 bacteria as (
     select
         bacteria,
         strain,
         mdr,
-        row_number() over (order by bacteria, strain, mdr) as bacteria_id
-    from (
-        select distinct bacteria, strain, mdr from {{ ref('final_cur_synergy') }}
-    ) as unique_bacteria
+        bacteria_id
+    from {{ ref('dim_synergy_bacteria') }}
 ),
+
 drug as (
     select
         drug,
-        row_number() over (order by drug) as drug_id
-    from (
-        select distinct drug from {{ ref('final_cur_synergy') }}
-        where drug is not null and drug <> ''
-    ) as unique_drugs
+        drug_id
+    from {{ ref('dim_synergy_drug') }}
 ),
+
 source as (
     select
         source_table,
         dbt_loaded_at,
-        row_number() over (order by source_table, dbt_loaded_at) as source_id
-    from (
-        select distinct source_table, dbt_loaded_at from {{ ref('final_cur_synergy') }}
-    ) as unique_sources
+        source_id
+    from {{ ref('dim_synergy_source') }}
 )
 
 select
-    serial_number,
-    nanoparticle_id,
+    final_cur_synergy.serial_number,
+    final_cur_synergy.nanoparticle_id,  -- если nanoparticle_id уже присвоен на этапе подготовки данных
     bacteria.bacteria_id,
     drug.drug_id,
     publication.publication_id,
     source.source_id,
 
-    -- Специфичные для эксперимента поля
-    method,
-    zoi_drug_mm_or_mic__µg_ml,
-    error_zoi_drug_mm_or_mic_µg_ml,
-    zoi_np_mm_or_mic_np_µg_ml,
-    error_zoi_np_mm_or_mic_np_µg_ml,
-    zoi_drug_np_mm_or_mic_drug_np_µg_ml,
-    error_zoi_drug_np_mm_or_mic_drug_np_µg_ml,
-    fold_increase_in_antibacterial_activity,
-    fic,
-    effect,
-    drug_dose_µg_disk,
-    np_concentration_µg_ml,
-    combined_mic,
-    peptide_mic,
-    "viability_%",
-    viability_error,
-    time_hr
+    final_cur_synergy.method,
+    final_cur_synergy.zoi_drug_mm_or_mic__µg_ml,
+    final_cur_synergy.error_zoi_drug_mm_or_mic_µg_ml,
+    final_cur_synergy.zoi_np_mm_or_mic_np_µg_ml,
+    final_cur_synergy.error_zoi_np_mm_or_mic_np_µg_ml,
+    final_cur_synergy.zoi_drug_np_mm_or_mic_drug_np_µg_ml,
+    final_cur_synergy.error_zoi_drug_np_mm_or_mic_drug_np_µg_ml,
+    final_cur_synergy.fold_increase_in_antibacterial_activity,
+    final_cur_synergy.fic,
+    final_cur_synergy.effect,
+    final_cur_synergy.drug_dose_µg_disk,
+    final_cur_synergy.np_concentration_µg_ml,
+    final_cur_synergy.combined_mic,
+    final_cur_synergy.peptide_mic,
+    final_cur_synergy."viability_%",
+    final_cur_synergy.viability_error,
+    final_cur_synergy.time_hr
 
 from {{ ref('final_cur_synergy') }} as final_cur_synergy
 

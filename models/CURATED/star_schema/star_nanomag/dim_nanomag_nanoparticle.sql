@@ -1,7 +1,3 @@
--- Справочник наночастиц (dim_nanomag_nanoparticle).
--- Каждая строка — уникальная наночастица, определяемая по составу, оболочкам, пространственным группам и размеру.
--- Используется для связи с факт-таблицей через nanoparticle_id.
-
 {{ config(
     materialized='table',
     schema='star_schema',
@@ -17,9 +13,9 @@ with unique_nanoparticles as (
         space_group_shell,
         xrd_scherrer_size
     from {{ ref('final_cur_nanomag') }}
-)
+),
 
-, first_row as (
+first_row as (
     select
         *,
         row_number() over (
@@ -49,11 +45,27 @@ select
     unique_nanoparticles.space_group_shell,
     unique_nanoparticles.xrd_scherrer_size,
 
-    -- дополнительные характеристики
+    -- дополнительные характеристики (все, что относится к наночастице)
     first_row.core_shell_formula,
     first_row.np_hydro_size,
     first_row.emic_size,
-    first_row.instrument
+    first_row.instrument,
+    first_row.name,
+    first_row.squid_h_max,
+    first_row.fc_field_t_numeric,
+    first_row.fc_field_t_original,
+    first_row.squid_temperature_numeric,
+    first_row.squid_temperature_original,
+    first_row.squid_sat_mag_numeric,
+    first_row.squid_sat_mag_original,
+    first_row.coercivity_numeric,
+    first_row.coercivity_original,
+    first_row.squid_rem_mag_numeric,
+    first_row.squid_rem_mag_original,
+    first_row.exchange_bias_shift_oe_numeric,
+    first_row.exchange_bias_shift_oe_original,
+    first_row.vertical_loop_shift_m_vsl_emu_g_numeric,
+    first_row.vertical_loop_shift_m_vsl_emu_g_original
 
 from unique_nanoparticles
 left join first_row

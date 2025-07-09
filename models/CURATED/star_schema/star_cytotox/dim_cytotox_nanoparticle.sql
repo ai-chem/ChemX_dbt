@@ -33,6 +33,7 @@ select
     first_cytotox_row.potential_mv,
     first_cytotox_row.hydrodynamic_nm,
     first_cytotox_row.core_nm,
+    first_cytotox_row.shape,
     first_cytotox_row.zeta_potential_mv,
     first_cytotox_row.size_in_medium_nm,
     first_cytotox_row.surface_charge,

@@ -19,6 +19,9 @@ select
     title,
     pdf,
     access,
-    access_bool
+    access_bool,
+    supp,
+    article_name_folder,
+    supp_info_name_folder
 from ranked
 where rn = 1

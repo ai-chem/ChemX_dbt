@@ -30,6 +30,7 @@ select
     first_synergy_row.shape,
     first_synergy_row.np_size_min_nm,
     first_synergy_row.np_size_max_nm,
+    first_synergy_row.np_size_min_nm_parsed,
     first_synergy_row.zeta_potential_mv,
     first_synergy_row.zeta_potential_mv_parsed,
     first_synergy_row.synthesis_method,

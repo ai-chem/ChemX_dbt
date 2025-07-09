@@ -23,6 +23,7 @@ select
     oa_status,
     pdf,
     access,
-    access_bool
+    access_bool,
+    reference
 from ranked
 where rn = 1

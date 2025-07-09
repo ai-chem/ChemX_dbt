@@ -22,6 +22,7 @@ select
     is_oa,
     oa_status,
     pdf,
-    access
+    access,
+    reference
 from ranked
 where rn = 1

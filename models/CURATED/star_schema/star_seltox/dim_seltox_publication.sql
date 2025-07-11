@@ -8,7 +8,7 @@ with ranked as (
     select
         *,
         row_number() over (partition by doi order by doi) as rn
-    from {{ ref('final_cur_synergy') }}
+    from {{ ref('final_cur_seltox') }}
 )
 select
     row_number() over (order by doi) as publication_id,
@@ -23,6 +23,6 @@ select
     oa_status,
     pdf,
     access,
-    access_bool
+    reference
 from ranked
 where rn = 1

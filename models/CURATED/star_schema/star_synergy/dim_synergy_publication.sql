@@ -8,17 +8,22 @@ with ranked as (
     select
         *,
         row_number() over (partition by doi order by doi) as rn
-    from {{ ref('final_cur_nanomag') }}
+    from {{ ref('final_cur_synergy') }}
 )
 select
     row_number() over (order by doi) as publication_id,
     doi,
-    journal,
+    article_list,
+    journal_name,
     publisher,
     year,
     title,
+    journal_is_oa,
+    is_oa,
+    oa_status,
     pdf,
     access,
-    access_bool
+    access_bool,
+    reference
 from ranked
 where rn = 1
